@@ -24,3 +24,13 @@ services:
       - ./storage/dbdata:/var/lib/mysql
     ports:
       - "33060:3306"
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    depends_on:
+      - admin_db
+    environment:
+      PMA_HOST: admin_db
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "8080:80"
