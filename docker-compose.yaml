@@ -1,4 +1,3 @@
-version: '2.8'
 services:
   admin:
     build: 
@@ -16,18 +15,7 @@ services:
       - DB_USERNAME=root      
       - DB_PASSWORD=root 
 
-
-  admin_db:
-    image: mysql:5.7
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: admin
-    volumes:
-      - ./storage/dbdata:/var/lib/mysql
-    ports:
-      - "33060:3306"
-
-  phpmyadmin:
+  admin_phpmyadmin:
     image: phpmyadmin:latest
     depends_on:
       - admin_db
@@ -36,3 +24,14 @@ services:
       MYSQL_ROOT_PASSWORD: root
     ports:
       - "8080:80"
+
+  admin_db:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: admin
+    volumes:
+      - ./storage/dbdata:/var/lib/mysql
+    ports:
+      - "33060:3306"
