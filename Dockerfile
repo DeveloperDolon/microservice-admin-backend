@@ -24,6 +24,9 @@ RUN apt-get update && apt-get install -y \
 
     WORKDIR /app
     COPY . .
+
+    RUN chmod -R 777 /app
+
     RUN composer install
 
     CMD php artisan serve --host=0.0.0.0 --port=8000
