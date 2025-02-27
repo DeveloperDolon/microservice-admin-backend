@@ -2,6 +2,6 @@
 
 @section('content')
     <div class="bg-red">
-        Hello world form bangladesh.
+        This is the admin service of this Microservice project.
     </div>
 @endsection
