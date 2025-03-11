@@ -2,6 +2,7 @@ version: '3.9'
 
 services:
   admin:
+    container_name: admin
     build: 
       context: .
       dockerfile: Dockerfile
@@ -24,6 +25,7 @@ services:
           cpus: "0.5"  
 
   admin_phpmyadmin:
+    container_name: admin_phpmyadmin
     image: phpmyadmin:latest
     depends_on:
       - admin_db
@@ -39,7 +41,8 @@ services:
           cpus: "0.25"
 
   admin_db:
-    image: mysql:5.7
+    container_name: admin_db
+    image: mysql:8.0
     command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ROOT_PASSWORD: root
