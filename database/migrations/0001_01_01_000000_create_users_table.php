@@ -14,7 +14,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('phone')->nullable();
-            $table->string('role_id');
+            $table->foreignUuid('role_id')->constrained('roles')->cascadeOnDelete();
             $table->string('profile_picture')->nullable();
             $table->timestamps();
         });
