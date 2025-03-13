@@ -9,22 +9,15 @@ class RouteServiceProvider extends ServiceProvider
 {
     public function map()
     {
-        $this->mapWebRoutes();
         $this->mapApiRoutes();
         $this->mapConsoleRoutes();
-    }
-
-    protected function mapWebRoutes()
-    {
-        Route::middleware('web')
-            ->group(base_path('routes/web.php'));
     }
 
     // Optionally map API routes
     protected function mapApiRoutes()
     {
         Route::prefix('api')
-            ->middleware('api')
+            ->middleware(['api', 'throttle:60,1'])
             ->group(base_path('routes/api.php'));
     }
 
