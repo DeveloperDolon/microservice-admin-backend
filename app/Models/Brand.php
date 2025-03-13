@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class Product extends Model
+class Brand extends Model
 {
     use HasFactory;
 
@@ -15,27 +15,16 @@ class Product extends Model
 
     protected $fillable = [
         'name',
-        'images',
-        'discount',
-        'price',
+        'banner',
+        'logo',
+        'title',
         'description',
-        'discount_type',
-        'likes',
-        'ingredients',
-        'shipping_cost',
-        'benefit',
-        'seller_id',
-        'brand_id'
+        'location'
     ];
 
-    public function seller()
+    public function products()
     {
-        return $this->belongsTo(User::class, 'seller_id');
-    }
-
-    public function brand()
-    {
-        return $this->belongsTo(Brand::class, 'brand_id');
+        return $this->hasMany(Product::class, 'brand_id');
     }
 
     public static function booted()
