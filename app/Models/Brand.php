@@ -22,6 +22,11 @@ class Brand extends Model
         'location'
     ];
 
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'brand_id');
+    }
+
     public static function booted()
     {
         static::creating(function ($model) {
