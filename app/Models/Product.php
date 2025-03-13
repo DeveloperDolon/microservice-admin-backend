@@ -13,7 +13,19 @@ class Product extends Model
     protected $keyType = 'string';
     public $incrementing = false;
 
-    protected $fillable = ['name', 'image', 'likes'];
+    protected $fillable = [
+        'name',
+        'images',
+        'discount',
+        'price',
+        'description',
+        'discount_type',
+        'likes',
+        'ingredients',
+        'shipping_cost',
+        'benefit',
+        'seller_id',
+    ];
 
     public static function booted()
     {
