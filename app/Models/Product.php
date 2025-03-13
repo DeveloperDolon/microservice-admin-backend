@@ -25,7 +25,18 @@ class Product extends Model
         'shipping_cost',
         'benefit',
         'seller_id',
+        'brand_id'
     ];
+
+    public function seller()
+    {
+        return $this->belongsTo(User::class, 'seller_id');
+    }
+
+    public function brand()
+    {
+        return $this->belongsTo();
+    }
 
     public static function booted()
     {
