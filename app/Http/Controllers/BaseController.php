@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Symfony\Component\HttpFoundation\Response;
 
-class AuthController extends Controller
+class BaseController extends Controller
 {
     public function sendSuccessResponse($data, $message = 'Success!', $status = Response::HTTP_OK)
     {
