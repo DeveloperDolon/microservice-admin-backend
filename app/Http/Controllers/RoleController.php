@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class RoleController extends BaseController
 {
-    public function storeRole(RoleRequest $request)
+    public function create(RoleRequest $request)
     {
         $roleInfo = $request->validated();
 
