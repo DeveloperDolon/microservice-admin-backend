@@ -13,7 +13,6 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    
     protected $fillable = [
         'name',
         'email',
@@ -23,7 +22,6 @@ class User extends Authenticatable
         'profile_picture',
     ];
 
-   
     protected $hidden = [
         'password',
         'remember_token',
