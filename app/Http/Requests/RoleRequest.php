@@ -1,19 +1,10 @@
 <?php
-
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 class RoleRequest extends FormRequest
 {
-
-    protected $condition;
-
-    public function __construct()
-    {
-        $this->condition = $this->getMethod() === 'POST' ? 'required' : 'nullable';
-    }
-
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -29,9 +20,12 @@ class RoleRequest extends FormRequest
      */
     public function rules(): array
     {
+        // Determine condition based on HTTP method
+        $condition = $this->isMethod('post') ? 'required' : 'nullable';
+
         return [
-            'name' =>  $this->condition . '|string|max:100',
-            'permissions' => $this->condition . '|string'
+            'name' =>  $condition . '|string|max:100',
+            'permissions' => $condition . '|string'
         ];
     }
 }
