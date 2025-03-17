@@ -40,12 +40,13 @@ return Application::configure(basePath: dirname(__DIR__))
             return new JsonResponse([
                 'success' => false,
                 'message' => 'Unauthenticated.',
+                'status' => 401
             ], 401);
         });
 
         $exceptions->render(function (\Exception $e, Request $request) {
             $status = 500;
-            
+
             if ($e instanceof HttpException) {
                 $status = $e->getStatusCode();
             }
@@ -56,7 +57,6 @@ return Application::configure(basePath: dirname(__DIR__))
             return new JsonResponse([
                 'success' => false,
                 'message' => $e->getMessage(),
-                'errors' => [],
                 'status' => $status
             ], $status);
         });
