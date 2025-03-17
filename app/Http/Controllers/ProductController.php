@@ -12,6 +12,7 @@ class ProductController extends Controller
     //
     public function index()
     {
+        throw new \Exception('Something went wrong!');
         return Product::all();
     }
 
