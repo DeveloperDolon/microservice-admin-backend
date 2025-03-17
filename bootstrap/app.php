@@ -40,6 +40,7 @@ return Application::configure(basePath: dirname(__DIR__))
             return new JsonResponse([
                 'success' => false,
                 'message' => 'Unauthenticated.',
+                'status' => 401
             ], 401);
         });
 
