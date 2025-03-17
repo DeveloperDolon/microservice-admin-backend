@@ -8,6 +8,6 @@ Route::prefix('user')->controller(AuthController::class)->group(function () {
     Route::post('/create', 'register');
 });
 
-Route::prefix('role')->middleware('auth:sanctum')->controller(RoleController::class)->group(function () {
+Route::prefix('role')->middleware(['auth:sanctum'])->controller(RoleController::class)->group(function () {
     Route::post('/create', 'create');
 });
