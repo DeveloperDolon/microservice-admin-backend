@@ -32,7 +32,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapApiRoutes()
     {
         Route::prefix('api/v1')
-            ->middleware(['api', 'throttle:60,1'])
+            ->middleware(['throttle:60,1'])
             ->group(function () {
                 require base_path('routes/api.php');
                 require base_path('routes/auth.php');
@@ -47,12 +47,5 @@ class RouteServiceProvider extends ServiceProvider
         ], function () {
             require base_path('routes/console.php');
         });
-    }
-
-    protected function mapAuthApiRoutes()
-    {
-        Route::prefix('api/v1')
-            ->middleware(['api', 'throttle:60,1'])
-            ->group(base_path('routes/api.php'));
     }
 }
