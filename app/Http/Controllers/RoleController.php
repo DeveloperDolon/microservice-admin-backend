@@ -11,7 +11,7 @@ class RoleController extends BaseController
         $roleInfo = $request->validated();
 
         $data = Role::create($roleInfo);
-
+        
         return $this->sendSuccessResponse($data);
     }
 }
