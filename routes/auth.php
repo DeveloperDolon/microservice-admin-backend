@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('user')->controller(AuthController::class)->group(function () {
     Route::post('/create', 'register');
     Route::get('/login', 'login')->name('login');
-    Route::put('/update/{id}', 'updateUser')->middleware('auth:sanctum');
+    Route::put('/update/{id}', 'updateUser')->middleware(['auth:sanctum', 'super_admin']);
 });
 
-Route::prefix('role')->middleware(['auth:sanctum'])->controller(RoleController::class)->group(function () {
+Route::prefix('role')->middleware(['auth:sanctum', 'super_admin'])->controller(RoleController::class)->group(function () {
     Route::post('/create', 'create');
 });
