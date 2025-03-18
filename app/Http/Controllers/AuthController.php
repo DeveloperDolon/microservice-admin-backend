@@ -61,4 +61,19 @@ class AuthController extends BaseController
 
         throw new \Exception('Unauthenticated');
     }
+
+    public function userList()
+    {
+        $request = request();
+
+        $query = User::query();
+
+        $request->whenFilled('search', function ($input) use ($query) {
+            $query->where('name', 'like', '%' . $input . '%')->orWhere('email', 'like', '%' . $input . '%');
+        });
+
+        $userList = $query->get();
+
+        return $this->sendSuccessResponse($userList, 'User list retrived successful!');
+    }
 }
