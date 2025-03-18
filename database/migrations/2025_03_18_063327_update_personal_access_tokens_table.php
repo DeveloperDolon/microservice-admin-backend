@@ -6,19 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
-        //
+        Schema::table('personal_access_tokens', function (Blueprint $table) {
+            $table->dropColumn('tokenable_id');
+            $table->uuid('tokenable_id')->index();
+        });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
-        //
+        Schema::table('personal_access_tokens', function (Blueprint $table) {
+            $table->dropColumn('tokenable_id');
+            $table->unsignedBigInteger('tokenable_id')->index();
+        });
     }
 };
