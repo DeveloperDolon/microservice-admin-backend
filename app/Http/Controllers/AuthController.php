@@ -37,6 +37,7 @@ class AuthController extends BaseController
         return response()->json([
             'success' => true,
             'token' => $token,
+            'user' => $user
         ]);
     }
 }
