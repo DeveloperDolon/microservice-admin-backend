@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\GlobalErrorResponse;
+use App\Http\Middleware\IsSuperAdmin;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -18,6 +19,10 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->prependToGroup('global', [
             GlobalErrorResponse::class,
+        ]);
+
+        $middleware->appendToGroup('super_admin', [
+            IsSuperAdmin::class
         ]);
 
         $middleware->appendToGroup('api', [

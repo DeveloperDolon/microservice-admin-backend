@@ -3,7 +3,6 @@ version: '3.9'
 services:
   admin:
     container_name: admin
-    user: "${UID}:${GID}" 
     build: 
       context: .
       dockerfile: Dockerfile
