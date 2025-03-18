@@ -76,4 +76,11 @@ class AuthController extends BaseController
 
         return $this->sendSuccessResponse($userList, 'User list retrived successful!');
     }
+
+    public function deleteUser($id)
+    {
+        $data = User::find($id)->delete();
+
+        return $this->sendSuccessResponse($data, 'User deleted successful!');
+    }
 }

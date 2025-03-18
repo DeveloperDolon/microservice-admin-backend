@@ -13,6 +13,7 @@ Route::prefix('user')->controller(AuthController::class)->group(function () {
     Route::middleware(['auth:sanctum', 'super_admin'])->group(function () {
         Route::put('/update/{id}', 'updateUser');
         Route::get('/list', 'userList');
+        Route::delete('/delete/{id}', 'deleteUser');
     });
 });
 
