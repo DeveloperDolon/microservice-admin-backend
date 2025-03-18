@@ -50,6 +50,7 @@ return Application::configure(basePath: dirname(__DIR__))
             if ($e instanceof HttpException) {
                 $status = $e->getStatusCode();
             }
+
             if ($e instanceof ValidationException) {
                 $status = 422;
             } 
@@ -57,7 +58,7 @@ return Application::configure(basePath: dirname(__DIR__))
             return new JsonResponse([
                 'success' => false,
                 'message' => $e->getMessage(),
-                'status' => $status
+                'status' => $status,
             ], $status);
         });
     })->create();
