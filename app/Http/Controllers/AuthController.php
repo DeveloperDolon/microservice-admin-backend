@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AuthRequest;
+use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -41,13 +42,13 @@ class AuthController extends BaseController
         ]);
     }
 
-    public function updateUser($id, AuthRequest $request) 
+    public function updateUser($id, ProfileUpdateRequest $request) 
     {
         if ($request->user()) {
             $user = User::where('email', $request->user()->email)->first();
             $user->update($request->validated());
 
-            return $this->sendSuccessResponse($user);
+            return $this->sendSuccessResponse($user, 'Profile update successful!');
         }
         throw new \Exception('Unauthorized');
     }
@@ -75,5 +76,30 @@ class AuthController extends BaseController
         $userList = $query->get();
 
         return $this->sendSuccessResponse($userList, 'User list retrived successful!');
+    }
+
+    public function deleteUser($id)
+    {
+        $data = User::find($id)->delete();
+
+        return $this->sendSuccessResponse($data, 'User deleted successful!');
+    }
+
+    public function updateRole($id, Request $request)
+    {
+        $validatedData = $request->validate([
+            'role_id' => 'string|required'
+        ]);
+
+        $user = User::find($id);
+
+        if (!$user) {
+            return $this->sendErrorResponse(null, 'User not found', 404);
+        }
+
+        $user->role_id = $validatedData['role_id'];
+        $user->save();
+
+        return $this->sendSuccessResponse($user, 'User role updated successfully!');
     }
 }
