@@ -40,4 +40,15 @@ class AuthController extends BaseController
             'user' => $user
         ]);
     }
+
+    public function updateUser($id, AuthRequest $request) 
+    {
+        if ($request->user()) {
+            $user = User::where('email', $request->user()->email)->first();
+            $user->update($request->validated());
+
+            return $this->sendSuccessResponse($user);
+        }
+        throw new \Exception('Unauthorized');
+    }
 }
