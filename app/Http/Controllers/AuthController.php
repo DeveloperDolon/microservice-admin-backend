@@ -51,4 +51,14 @@ class AuthController extends BaseController
         }
         throw new \Exception('Unauthorized');
     }
+
+    public function userProfile() 
+    {
+        if(request()->user())
+        {
+            return $this->sendSuccessResponse(request()->user()->load('role'), 'User profile retrieved successful!');
+        }
+
+        throw new \Exception('Unauthenticated');
+    }
 }
