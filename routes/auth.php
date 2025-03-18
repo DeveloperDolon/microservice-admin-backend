@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('user')->controller(AuthController::class)->group(function () {
     Route::post('/create', 'register');
-    Route::get('/login-user', 'login')->name('login');
+    Route::get('/login', 'login');
 });
 
 Route::prefix('role')->middleware(['auth:sanctum'])->controller(RoleController::class)->group(function () {
