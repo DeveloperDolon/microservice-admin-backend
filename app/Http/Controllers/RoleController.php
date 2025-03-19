@@ -14,4 +14,13 @@ class RoleController extends BaseController
         
         return $this->sendSuccessResponse($data);
     }
+
+    public function update($id, RoleRequest $request) 
+    {
+        $role = Role::find($id);
+
+        $role->update($request->validated());
+
+        return $this->sendSuccessResponse($role, 'Role update successful!');
+    }
 }
