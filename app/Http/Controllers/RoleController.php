@@ -26,8 +26,12 @@ class RoleController extends BaseController
 
     public function delete($id) 
     {
-        $deleted = Role::delete($id);
+        $deleted = Role::destroy($id);
 
-        return $this->sendSuccessResponse($deleted, 'Role deleted successful!');
+        if($deleted) {
+            return $this->sendSuccessResponse($deleted, 'Role deleted successful!');
+        }
+
+        throw new \Exception('Data could not found!');
     }
 }
