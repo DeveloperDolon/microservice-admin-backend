@@ -24,4 +24,5 @@ Route::prefix('role')->middleware(['auth:sanctum', 'super_admin'])->controller(R
     Route::post('/create', 'create');
     Route::put('/update/{id}', 'update');
     Route::delete('/delete/{id}', 'delete');
+    Route::get('/list', 'list');
 });
