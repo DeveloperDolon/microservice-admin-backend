@@ -13,4 +13,5 @@ Route::middleware(['auth:sanctum'])
 ->prefix('review')
 ->group(function () {
     Route::get('/show/{id}', 'show');
+    Route::get('/list', 'list');
 });
