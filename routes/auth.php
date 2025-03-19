@@ -23,4 +23,6 @@ Route::prefix('user')->controller(AuthController::class)->group(function () {
 Route::prefix('role')->middleware(['auth:sanctum', 'super_admin'])->controller(RoleController::class)->group(function () {
     Route::post('/create', 'create');
     Route::put('/update/{id}', 'update');
+    Route::delete('/delete/{id}', 'delete');
+    Route::get('/list', 'list');
 });
