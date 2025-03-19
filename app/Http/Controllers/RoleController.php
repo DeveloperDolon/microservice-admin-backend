@@ -23,4 +23,11 @@ class RoleController extends BaseController
 
         return $this->sendSuccessResponse($role, 'Role update successful!');
     }
+
+    public function delete($id) 
+    {
+        $deleted = Role::delete($id);
+
+        return $this->sendSuccessResponse($deleted, 'Role deleted successful!');
+    }
 }
