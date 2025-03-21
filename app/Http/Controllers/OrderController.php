@@ -16,4 +16,11 @@ class OrderController extends BaseController
 
         return $this->sendSuccessResponse($orders, 'Orders retrieved successfully!');
     }
+
+    public function show($id)
+    {
+        $order = Order::with('items')->find($id);
+
+        return $this->sendSuccessResponse($order, 'Order retrieved successfully!');
+    }
 }
