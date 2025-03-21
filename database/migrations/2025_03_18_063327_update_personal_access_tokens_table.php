@@ -18,7 +18,7 @@ return new class extends Migration
     {
         Schema::table('personal_access_tokens', function (Blueprint $table) {
             $table->dropColumn('tokenable_id');
-            $table->unsignedBigInteger('tokenable_id')->index()->change();
+            $table->unsignedBigInteger('tokenable_id')->index();
         });
     }
 };
