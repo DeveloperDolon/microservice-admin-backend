@@ -24,6 +24,7 @@ return new class extends Migration
             $table->longText('benefit')->nullable();
             $table->foreignUuid('seller_id')->constrained('users')->cascadeOnDelete();
             $table->unsignedInteger('likes')->default(0);
+            $table->foreignUuid('brand_id')->constrained('brands')->cascadeOnDelete();
             $table->timestamps();
         });
     }
