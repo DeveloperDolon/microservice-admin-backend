@@ -15,9 +15,6 @@ class ProductCreateJob implements ShouldQueue
         $this->data = $data;
     }
 
-    /**
-     * Execute the job.
-     */
     public function handle(): void
     {
         
