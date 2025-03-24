@@ -76,6 +76,7 @@ return [
             'driver' => 'rabbitmq',
             'hosts' => [
                 [
+                    'queue' => env('RABBITMQ_QUEUE', 'admin'),
                     'host' => env('RABBITMQ_HOST', '127.0.0.1'),
                     'port' => env('RABBITMQ_PORT', 5672),
                     'user' => env('RABBITMQ_USER', 'guest'),
