@@ -17,11 +17,11 @@ class BrandRequest extends FormRequest
         $condition = $this->getMethod() === 'POST' ? 'required' : 'nullable';
         return [
             'name' => $condition . '|string|max:255|min:5',
-            'banner' => 'string|max:255|min:5',
+            'banner' => 'nullable|string|max:255|min:5',
             'logo' => $condition . '|string|max:255|min:5',
             'title' => $condition . '|string|max:255|min:5',
-            'description' => 'string|max:255|min:5',
-            'location' => 'string|max:255|min:5',
+            'description' => 'nullable|string|max:255|min:5',
+            'location' => 'nullable|string|max:255|min:5',
         ];
     }
 }
