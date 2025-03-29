@@ -15,6 +15,6 @@ class IsAdmin
         {
             return $next($request);
         }
-        return $next($request);
+        abort(401, 'Unauthrized');
     }
 }

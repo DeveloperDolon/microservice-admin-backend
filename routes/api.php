@@ -5,11 +5,15 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
 
-
-
-Route::get('/products', [ProductController::class, 'index']);
-Route::get('/product/{id}', [ProductController::class, 'show']);
-Route::post('/product', [ProductController::class, 'createProduct']);
+Route::middleware(['admin'])
+->controller(ProductController::class)
+->prefix('product')
+->group(function () {
+    Route::get('/create', 'create');
+    Route::get('/edit/{id}', 'edit');
+    Route::post('/update/{id}', 'update');
+    Route::post('/delete/{id}', 'delete')   ;
+});
 
 Route::middleware(['auth:sanctum'])
 ->controller(ReviewController::class)
