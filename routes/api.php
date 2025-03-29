@@ -10,7 +10,6 @@ Route::middleware(['admin'])
 ->prefix('product')
 ->group(function () {
     Route::get('/create', 'create');
-    Route::get('/edit/{id}', 'edit');
     Route::post('/update/{id}', 'update');
     Route::post('/delete/{id}', 'delete')   ;
 });
