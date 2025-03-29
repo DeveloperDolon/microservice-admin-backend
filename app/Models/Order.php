@@ -23,6 +23,11 @@ class Order extends Model
         'address_id',
     ];
 
+    public function items()
+    {
+        return $this->hasMany(OrderItem::class, 'order_id');
+    }
+
     static function boot()
     {
         static::creating((function ($model) {
