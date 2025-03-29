@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
 use App\Jobs\ProductCreateJob;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -20,7 +21,7 @@ class ProductController extends Controller
         return Product::find($id);
     }
 
-    public function createProduct(Request $request)
+    public function create(ProductRequest $request)
     {
         $product = new Product();
         $product->name = $request->name;
