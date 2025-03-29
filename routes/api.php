@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BrandController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
@@ -31,10 +32,10 @@ Route::middleware(['auth:sanctum', 'admin'])
 });
 
 Route::middleware(['auth:sanctum', 'admin'])
-->controller(ProductController::class)
+->controller(BrandController::class)
 ->prefix('brand')
 ->group(function () {
-    Route::get('/create', 'create');
-    Route::post('/update/{id}', 'update');
-    Route::post('/delete/{id}', 'delete');
+    Route::post('/create', 'create');
+    Route::put('/update/{id}', 'update');
+    Route::delete('/delete/{id}', 'delete');
 });
