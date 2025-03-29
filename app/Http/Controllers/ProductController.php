@@ -5,10 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductRequest;
 use App\Jobs\ProductCreateJob;
 use App\Models\Product;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class ProductController extends Controller
+class ProductController extends BaseController
 {
     //
     public function index()
@@ -23,13 +22,13 @@ class ProductController extends Controller
 
     public function create(ProductRequest $request)
     {
-        $product = new Product();
-        $product->name = $request->name;
-        $product->image = $request->image;
-        $product->save();
+        $product = Product::create($request->validated());
 
         ProductCreateJob::dispatch($product->toArray());
 
-        return response()->json($product, Response::HTTP_CREATED);
+        return $this->sendSuccessResponse(
+            $product,
+            'Product created successfully.'
+        );
     }
 }
