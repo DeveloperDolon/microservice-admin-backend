@@ -3,35 +3,30 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ProductRequest extends FormRequest
 {
-    protected $condition;
-
-    public function __construct()
-    {
-        $this->condition = $this->getMethod() === 'POST' ? 'required' : 'nullable';
-    }
-
     public function authorize(): bool
     {
-        return true;
+        return Auth::check();
     }
 
     public function rules(): array
     {
+        $condition = $this->getMethod() === 'POST' ? 'required' : 'nullable';
         return [
-            'name' => $this->condition . '|string|max:255|min:5',
-            'images' => $this->condition . '|string',
-            'discount' => $this->condition . '|numeric',
-            'price' => $this->condition . '|numeric',
-            'description' => $this->condition . 'string',
-            'discount_type' => $this->condition . '|enum:percentage,amount',
-            'likes' => $this->condition . '|integer',
+            'name' => $condition . '|string|max:255|min:5',
+            'images.*' => $condition . '|file|mimes:jpeg,png,jpg,gif|max:2048',
+            'discount' => $condition . '|numeric',
+            'price' => $condition . '|numeric',
+            'description' => $condition . 'string',
+            'discount_type' => $condition . '|in:percentage,amount',
+            'likes' => $condition . '|integer',
             'ingredients' => 'nullable|string',
-            'shipping_cost' => $this->condition . '|integer',
+            'shipping_cost' => $condition . '|integer',
             'benefit' => 'nullable|string',
-            'seller_id' => $this->condition . '|string',
+            'seller_id' => $condition . '|string',
         ];
     }
 }

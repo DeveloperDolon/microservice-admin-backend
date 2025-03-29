@@ -7,15 +7,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class IsSuperAdmin
+class IsAdmin
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user() && Auth::user()->role->name == 'Super Admin')
+        if (Auth::user() && Auth::user()->role !== null && in_array(Auth::user()->role->name, ['Admin', 'Super Admin']))
         {
             return $next($request);
         }
-
         abort(401, 'Unauthrized');
     }
 }
