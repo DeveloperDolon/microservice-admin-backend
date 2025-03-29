@@ -2,7 +2,14 @@
 
 namespace App\Http\Controllers;
 
-class BrandController extends BrandController
+use App\Http\Requests\BrandRequest;
+use App\Models\Brand;
+
+class BrandController extends BaseController
 {
-    public function create(){}
+    public function create(BrandRequest $request){
+        $brand = Brand::create($request->validated());
+
+        return $this->sendSuccessResponse($brand, 'Brand created successfully.');
+    }
 }
