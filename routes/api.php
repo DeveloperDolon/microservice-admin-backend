@@ -11,10 +11,10 @@ Route::middleware(['admin'])
 ->group(function () {
     Route::get('/create', 'create');
     Route::post('/update/{id}', 'update');
-    Route::post('/delete/{id}', 'delete')   ;
+    Route::post('/delete/{id}', 'delete');
 });
 
-Route::middleware(['auth:sanctum'])
+Route::middleware(['auth:sanctum', 'admin'])
 ->controller(ReviewController::class)
 ->prefix('review')
 ->group(function () {
@@ -22,10 +22,19 @@ Route::middleware(['auth:sanctum'])
     Route::get('/list', 'list');
 });
 
-Route::middleware(['auth:sanctum'])
+Route::middleware(['auth:sanctum', 'admin'])
 ->controller(OrderController::class)
 ->prefix('order')
 ->group(function () {
     Route::get('/list', 'list');
     Route::get('/show/{id}', 'show');
+});
+
+Route::middleware(['auth:sanctum', 'admin'])
+->controller(ProductController::class)
+->prefix('brand')
+->group(function () {
+    Route::get('/create', 'create');
+    Route::post('/update/{id}', 'update');
+    Route::post('/delete/{id}', 'delete');
 });
