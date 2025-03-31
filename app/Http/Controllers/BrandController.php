@@ -30,4 +30,26 @@ class BrandController extends BaseController
         BrandCreateJob::dispatch($brand->toArray())->onConnection('rabbitmq')->onQueue('main_queue');
         return $this->sendSuccessResponse($brand, 'Brand created successfully.');
     }
+
+    public function update(BrandRequest $request)
+    {
+        $brandData = $request->validated();
+        $brand = Brand::findOrFail($request->id);
+
+        $brand->name = $brandData['name'] ?? $brand->name;
+        $brand->description = $brandData['description'] ?? $brand->description;
+        $brand->location = $brandData['location'] ?? $brand->location;
+        $brand->title = $brandData['title'] ?? $brand->title;
+
+        if ($request->hasFile('logo')) {
+            $brand->logo = upload_image($request->file('logo'));
+        }
+
+        if ($request->hasFile('banner')) {
+            $brand->banner = upload_image($request->file('banner'));
+        }
+
+        $brand->save();
+        return $this->sendSuccessResponse($brand, 'Brand updated successfully.');
+    }
 }
