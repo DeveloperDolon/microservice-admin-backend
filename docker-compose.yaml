@@ -46,7 +46,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: bash -c "wait-for-it.sh admin_db:3306 -- php artisan queue:work"
+    command: bash -c "wait-for-it.sh admin_db:3306 -- php artisan queue:work rabbitmq --queue=admin_queue"
     depends_on:
       - admin_db
     environment:

@@ -5,7 +5,7 @@ namespace App\Jobs;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 
-class BrandCreateJob implements ShouldQueue
+class BrandUpdateJob implements ShouldQueue
 {
     use Queueable;
     
