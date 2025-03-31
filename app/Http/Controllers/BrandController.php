@@ -28,7 +28,7 @@ class BrandController extends BaseController
         }
 
         $brand->save();
-        BrandCreateJob::dispatch($brand->toArray())->onQueue('main_queue');
+        BrandCreateJob::dispatch($brand->toArray())->onConnection('rabbitmq')->onQueue('main_queue');
         return $this->sendSuccessResponse($brand, 'Brand created successfully.');
     }
 }
