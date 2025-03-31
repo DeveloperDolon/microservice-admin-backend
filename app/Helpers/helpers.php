@@ -1,16 +1,12 @@
 <?php
 
-if (!function_exists('greet')) {
-    function greet($name)
+if(!function_exists('upload_image')) {
+    function upload_image($img)
     {
-        return "Hello, $name!";
-    }
-}
+        $fileName = uniqid() . '.' . $img->getClientOriginalExtension();
+        $path = $img->storeAs('images/brands', $fileName, 'public');
 
-if (!function_exists('is_admin')) {
-    function is_admin()
-    {
-        return 'Hello world';
-        // return auth()->check() && auth()->user()->role === 'admin';
+        $port = $_SERVER['SERVER_PORT'];
+        return env('APP_URL') . ':' . $port . '/api/v1/' . $path;
     }
 }

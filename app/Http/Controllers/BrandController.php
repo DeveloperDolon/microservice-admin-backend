@@ -3,17 +3,31 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\BrandRequest;
+use App\Jobs\BrandCreateJob;
 use App\Models\Brand;
 
 class BrandController extends BaseController
 {
-    public function create(BrandRequest $request){
+    public function create(BrandRequest $request)
+    {
         $brandData = $request->validated();
 
-        return $this->sendSuccessResponse($brandData, 'Brand data validated successfully.');
+        $brand = new Brand();
+        $brand->name = $brandData['name'];
+        $brand->description = $brandData['description'];
+        $brand->location = $brandData['location'];
+        $brand->title = $brandData['title'];
 
-        $brand = Brand::create($request->validated());
+        if ($request->hasFile('logo')) {
+            $brand->logo = upload_image($request->file('logo'));
+        }
 
+        if ($request->hasFile('banner')) {
+            $brand->banner = upload_image($request->file('banner'));
+        }
+
+        $brand->save();
+        BrandCreateJob::dispatch($brand->toArray())->onQueue('main_queue');
         return $this->sendSuccessResponse($brand, 'Brand created successfully.');
     }
 }

@@ -1,28 +1,29 @@
-version: '3.9'
+version: "3.9"
 
 services:
   admin:
     container_name: admin
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile
+    command: bash -c "wait-for-it.sh admin_db:3306 -- php artisan serve --host=0.0.0.0 --port=8000"
     volumes:
-      - .:/app 
+      - .:/app
     ports:
       - "8000:8000"
     depends_on:
       - admin_db
     environment:
-      - DB_HOST=admin_db             
-      - DB_DATABASE=admin     
-      - DB_USERNAME=root      
+      - DB_HOST=admin_db
+      - DB_DATABASE=admin
+      - DB_USERNAME=root
       - DB_PASSWORD=root
 
     deploy:
       resources:
         limits:
-          memory: 512M 
-          cpus: "0.5"  
+          memory: 512M
+          cpus: "0.5"
 
   admin_phpmyadmin:
     container_name: admin_phpmyadmin
@@ -40,10 +41,33 @@ services:
           memory: 256M
           cpus: "0.25"
 
+  admin_queue:
+    container_name: admin_queue
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: bash -c "wait-for-it.sh admin_db:3306 -- php artisan queue:work"
+    depends_on:
+      - admin_db
+    environment:
+      DB_CONNECTION: mysql
+      DB_HOST: admin_db
+      DB_PORT: 3306
+      DB_DATABASE: admin
+      DB_USERNAME: root
+      DB_PASSWORD: root
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: "0.5"
+
   admin_db:
     container_name: admin_db
     image: mysql:8.0
-    command: --default-authentication-plugin=mysql_native_password
+    command: 
+      - --default-authentication-plugin=mysql_native_password
+      - --host_cache_size=0 
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: admin
@@ -54,5 +78,5 @@ services:
     deploy:
       resources:
         limits:
-          memory: 1G  
-          cpus: "1.0" 
+          memory: 1G
+          cpus: "1.0"
