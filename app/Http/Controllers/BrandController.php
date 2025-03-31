@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\BrandRequest;
 use App\Jobs\BrandCreateJob;
+use App\Jobs\TestJob;
 use App\Models\Brand;
 
 class BrandController extends BaseController
