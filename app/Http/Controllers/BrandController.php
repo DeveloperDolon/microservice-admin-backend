@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\BrandRequest;
 use App\Jobs\BrandCreateJob;
+use App\Jobs\BrandUpdateJob;
 use App\Models\Brand;
 
 class BrandController extends BaseController
@@ -50,6 +51,7 @@ class BrandController extends BaseController
         }
 
         $brand->save();
+        BrandUpdateJob::dispatch($brand->toArray())->onConnection('rabbitmq')->onQueue('main_queue');
         return $this->sendSuccessResponse($brand, 'Brand updated successfully.');
     }
 }
