@@ -10,12 +10,20 @@ class ProductController extends BaseController
 {
     public function index()
     {
-        return Product::all();
+        $productList = Product::all();
+        if ($productList->isEmpty()) {
+            return $this->sendErrorResponse('No products found.', 404);
+        }
+        return $this->sendSuccessResponse($productList, 'Products retrieved successfully.');
     }
 
     public function show($id)
     {
-        return Product::find($id);
+        $product = Product::find($id);
+        if (!$product) {
+            return $this->sendErrorResponse('Product not found.', 404);
+        }
+        return $this->sendSuccessResponse($product, 'Product retrieved successfully.');
     }
 
     public function create(ProductRequest $request)

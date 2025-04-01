@@ -12,6 +12,8 @@ Route::middleware(['auth:sanctum', 'admin'])
 ->prefix('product')
 ->group(function () {
     Route::post('/create', 'create');
+    Route::get('/list', 'index');
+    Route::get('/show/{id}', 'show');
     Route::put('/update/{id}', 'update');
     Route::delete('/delete/{id}', 'delete');
 });
