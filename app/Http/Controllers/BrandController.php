@@ -69,4 +69,10 @@ class BrandController extends BaseController
         $brands = Brand::all();
         return $this->sendSuccessResponse($brands, 'Brand list retrieved successfully.');
     }
+
+    public function show($id) 
+    {
+        $brand = Brand::findOrFail($id);
+        return $this->sendSuccessResponse($brand, 'Brand details retrieved successfully.');
+    }
 }
