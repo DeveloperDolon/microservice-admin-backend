@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
 use App\Jobs\ProductCreateJob;
+use App\Jobs\ProductDeleteJob;
 use App\Jobs\ProductUpdateJob;
 use App\Models\Product;
 
@@ -86,5 +87,16 @@ class ProductController extends BaseController
         
         ProductUpdateJob::dispatch($product->toArray())->onConnection('rabbitmq')->onQueue('main_queue');
         return $this->sendSuccessResponse($product, 'Product updated successfully.');
+    }
+
+    public function delete($id)
+    {
+        $product = Product::find($id);
+        if (!$product) {
+            return $this->sendErrorResponse('Product not found.', 404);
+        }
+        $product->delete();
+        ProductDeleteJob::dispatch($id)->onConnection('rabbitmq')->onQueue('main_queue');
+        return $this->sendSuccessResponse([], 'Product deleted successfully.');
     }
 }
