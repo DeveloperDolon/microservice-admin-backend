@@ -7,13 +7,13 @@ use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['admin'])
+Route::middleware(['auth:sanctum', 'admin'])
 ->controller(ProductController::class)
 ->prefix('product')
 ->group(function () {
-    Route::get('/create', 'create');
-    Route::post('/update/{id}', 'update');
-    Route::post('/delete/{id}', 'delete');
+    Route::post('/create', 'create');
+    Route::put('/update/{id}', 'update');
+    Route::delete('/delete/{id}', 'delete');
 });
 
 Route::middleware(['auth:sanctum', 'admin'])
