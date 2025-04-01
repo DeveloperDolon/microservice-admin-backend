@@ -39,6 +39,8 @@ Route::middleware(['auth:sanctum', 'admin'])
     Route::post('/create', 'create');
     Route::put('/update/{id}', 'update');
     Route::delete('/delete/{id}', 'delete');
+    Route::get('/', 'list');
+    Route::get('/show/{id}', 'show');
 });
 
 Route::get('/images/brands/{filename}', function ($filename) {

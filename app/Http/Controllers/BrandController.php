@@ -63,4 +63,10 @@ class BrandController extends BaseController
         BrandDeleteJob::dispatch($id)->onConnection('rabbitmq')->onQueue('main_queue');
         return $this->sendSuccessResponse([], 'Brand deleted successfully.');
     }
+
+    public function list()
+    {
+        $brands = Brand::all();
+        return $this->sendSuccessResponse($brands, 'Brand list retrieved successfully.');
+    }
 }
