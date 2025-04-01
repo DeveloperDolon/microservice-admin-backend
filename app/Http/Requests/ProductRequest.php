@@ -15,6 +15,7 @@ class ProductRequest extends FormRequest
     public function rules(): array
     {
         $condition = $this->getMethod() === 'POST' ? 'required' : 'nullable';
+        
         return [
             'name' => $condition . '|string|max:255|min:5',
             'images.*' => $condition . '|file|mimes:jpeg,png,jpg,gif|max:2048',
