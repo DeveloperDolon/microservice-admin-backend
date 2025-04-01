@@ -9,10 +9,10 @@ class ProductDeleteJob implements ShouldQueue
 {
     use Queueable;
 
-    private $data;
-    public function __construct($data)
+    private $id;
+    public function __construct($id)
     {
-        $this->data = $data;
+        $this->id = $id;
     }
 
     public function handle(): void
