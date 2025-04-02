@@ -7,13 +7,15 @@ use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['admin'])
+Route::middleware(['auth:sanctum', 'admin'])
 ->controller(ProductController::class)
 ->prefix('product')
 ->group(function () {
-    Route::get('/create', 'create');
-    Route::post('/update/{id}', 'update');
-    Route::post('/delete/{id}', 'delete');
+    Route::post('/create', 'create');
+    Route::get('/list', 'index');
+    Route::get('/show/{id}', 'show');
+    Route::put('/update/{id}', 'update');
+    Route::delete('/delete/{id}', 'delete');
 });
 
 Route::middleware(['auth:sanctum', 'admin'])
@@ -39,6 +41,8 @@ Route::middleware(['auth:sanctum', 'admin'])
     Route::post('/create', 'create');
     Route::put('/update/{id}', 'update');
     Route::delete('/delete/{id}', 'delete');
+    Route::get('/', 'list');
+    Route::get('/show/{id}', 'show');
 });
 
 Route::get('/images/brands/{filename}', function ($filename) {
