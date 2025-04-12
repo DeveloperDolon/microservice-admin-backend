@@ -56,7 +56,7 @@ class ProductController extends BaseController
         $product->brand_id = $productData['brand_id'];
         $product->save();
 
-        if(isset($productData['variant_name']) && isset($productData['variant_price']) && isset($productData['variant_stock'])) {
+        if (isset($productData['variant_name']) && isset($productData['variant_price']) && isset($productData['variant_stock'])) {
             foreach ($productData['variant_name'] as $key => $variantName) {
                 if (!empty($variantName)) {
                     $product->variants()->create([
@@ -67,16 +67,19 @@ class ProductController extends BaseController
                 }
             }
         }
-        
+
         $product->load('variants');
-        ProductCreateJob::dispatch($product->toArray())->onConnection('rabbitmq')->onQueue('main_queue');
-        return $this->sendSuccessResponse($product, 'Product created successfully.');
+        $productArray = $product->toArray();
+        $productArray['variants'] = $product->variants->toArray();
+        ProductCreateJob::dispatch($productArray)->onConnection('rabbitmq')->onQueue('main_queue');
+
+        return $this->sendSuccessResponse($productArray, 'Product created successfully.');
     }
 
-    public function update(Request $request, $id) 
+    public function update(Request $request, $id)
     {
         $productData = $request;
-        
+
         $product = Product::find($id);
         $product->name = $productData['name'] ?? $product->name;
         $product->discount = $productData['discount'] ?? $product->discount;
@@ -97,7 +100,7 @@ class ProductController extends BaseController
             $product->images = implode(',', $uploadedImages);
         }
         $product->save();
-        
+
         ProductUpdateJob::dispatch($product->toArray())->onConnection('rabbitmq')->onQueue('main_queue');
         return $this->sendSuccessResponse($product, 'Product updated successfully.');
     }
