@@ -7,6 +7,7 @@ use App\Jobs\ProductCreateJob;
 use App\Jobs\ProductDeleteJob;
 use App\Jobs\ProductUpdateJob;
 use App\Models\Product;
+use Illuminate\Http\Request;
 
 class ProductController extends BaseController
 {
@@ -54,15 +55,27 @@ class ProductController extends BaseController
         $product->seller_id = $productData['seller_id'];
         $product->brand_id = $productData['brand_id'];
         $product->save();
+
+        if(isset($productData['variant_name']) && isset($productData['variant_price']) && isset($productData['variant_stock'])) {
+            foreach ($productData['variant_name'] as $key => $variantName) {
+                if (!empty($variantName)) {
+                    $product->variants()->create([
+                        'name' => $variantName,
+                        'stock' => $productData['variant_stock'][$key],
+                        'price' => $productData['variant_price'][$key],
+                    ]);
+                }
+            }
+        }
         
+        $product->load('variants');
         ProductCreateJob::dispatch($product->toArray())->onConnection('rabbitmq')->onQueue('main_queue');
-        
         return $this->sendSuccessResponse($product, 'Product created successfully.');
     }
 
-    public function update(ProductRequest $request, $id) 
+    public function update(Request $request, $id) 
     {
-        $productData = $request->validated();
+        $productData = $request;
         
         $product = Product::find($id);
         $product->name = $productData['name'] ?? $product->name;

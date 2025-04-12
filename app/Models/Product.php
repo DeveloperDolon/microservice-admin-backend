@@ -38,6 +38,11 @@ class Product extends Model
         return $this->belongsTo(Brand::class, 'brand_id');
     }
 
+    public function variants() 
+    {
+        return $this->hasMany(Variant::class, 'product_id');
+    }
+
     public static function booted()
     {
         static::creating(function ($model) {
