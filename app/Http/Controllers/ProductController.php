@@ -7,6 +7,7 @@ use App\Jobs\ProductCreateJob;
 use App\Jobs\ProductDeleteJob;
 use App\Jobs\ProductUpdateJob;
 use App\Models\Product;
+use App\Models\Variant;
 use Illuminate\Http\Request;
 
 class ProductController extends BaseController
@@ -102,9 +103,23 @@ class ProductController extends BaseController
         $product->save();
 
         if (isset($productData['variant_name']) && isset($productData['variant_price']) && isset($productData['variant_stock'])) {
-            $variants = $product->variants();
-
-            
+            foreach ($productData['variant_name'] as $key => $variantName) {
+                if (!empty($variantName)) {
+                    $isVariantExist = Variant::where('name', $variantName)->first();
+                    if ($isVariantExist) {
+                        $isVariantExist->name = $variantName;
+                        $isVariantExist->stock = $productData['variant_stock'][$key];
+                        $isVariantExist->price = $productData['variant_price'][$key];
+                        $isVariantExist->save();
+                    } else {
+                        $product->variants()->create([
+                            'name' => $variantName,
+                            'stock' => $productData['variant_stock'][$key],
+                            'price' => $productData['variant_price'][$key],
+                        ]);
+                    }
+                }
+            }
         }
 
         ProductUpdateJob::dispatch($product->toArray())->onConnection('rabbitmq')->onQueue('main_queue');

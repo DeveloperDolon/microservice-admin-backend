@@ -29,7 +29,7 @@ class ProductRequest extends FormRequest
             'benefit' => 'nullable|string',
             'seller_id' => $condition . '|string',
             'brand_id' => $condition . '|string',
-            'variant_name.*' => $condition . '|string|max:255|min:5',
+            'variant_name.*' => $condition . '|string|max:255|min:5|unique:variants,name',
             'variant_price.*' => $condition . '|numeric|min:0',
             'variant_stock.*' => $condition . '|integer|min:0',
         ];
