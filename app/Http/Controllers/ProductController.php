@@ -101,6 +101,12 @@ class ProductController extends BaseController
         }
         $product->save();
 
+        if (isset($productData['variant_name']) && isset($productData['variant_price']) && isset($productData['variant_stock'])) {
+            $variants = $product->variants();
+
+            
+        }
+
         ProductUpdateJob::dispatch($product->toArray())->onConnection('rabbitmq')->onQueue('main_queue');
         return $this->sendSuccessResponse($product, 'Product updated successfully.');
     }
