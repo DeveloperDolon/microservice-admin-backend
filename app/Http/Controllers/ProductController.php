@@ -102,11 +102,11 @@ class ProductController extends BaseController
         }
         $product->save();
 
-        if (isset($productData['variant_name']) && isset($productData['variant_price']) && isset($productData['variant_stock'])) {
+        if (isset($productData['variant_name']) && isset($productData['variant_ids']) && isset($productData['variant_price']) && isset($productData['variant_stock'])) {
             foreach ($productData['variant_name'] as $key => $variantName) {
                 if (!empty($variantName)) {
-                    $isVariantExist = Variant::where('name', $variantName)->first();
-                    if ($isVariantExist) {
+                    if (isset($productData['variant_ids'][$key]) && $productData['variant_ids'][$key] != null) {
+                        $isVariantExist = Variant::find($productData['variant_ids'][$key]);
                         $isVariantExist->name = $variantName;
                         $isVariantExist->stock = $productData['variant_stock'][$key];
                         $isVariantExist->price = $productData['variant_price'][$key];
@@ -121,8 +121,10 @@ class ProductController extends BaseController
                 }
             }
         }
-
-        ProductUpdateJob::dispatch($product->toArray())->onConnection('rabbitmq')->onQueue('main_queue');
+        $product->load('variants');
+        $productArray = $product->toArray();
+        $productArray['variants'] = $product->variants->toArray();
+        ProductUpdateJob::dispatch($productArray)->onConnection('rabbitmq')->onQueue('main_queue');
         return $this->sendSuccessResponse($product, 'Product updated successfully.');
     }
 
