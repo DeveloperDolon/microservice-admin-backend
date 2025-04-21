@@ -25,6 +25,9 @@ services:
           memory: 512M
           cpus: "0.5"
 
+    networks:
+      -  microservice-network
+
   admin_phpmyadmin:
     container_name: admin_phpmyadmin
     image: phpmyadmin:latest
@@ -40,6 +43,9 @@ services:
         limits:
           memory: 256M
           cpus: "0.25"
+
+    networks:
+      -  microservice-network
 
   admin_queue:
     container_name: admin_queue
@@ -62,6 +68,9 @@ services:
           memory: 512M
           cpus: "0.5"
 
+    networks:
+      -  microservice-network
+
   admin_db:
     container_name: admin_db
     image: mysql:8.0
@@ -80,3 +89,9 @@ services:
         limits:
           memory: 1G
           cpus: "1.0"
+    networks:
+      -  microservice-network
+
+networks:
+  microservice-network:
+    external: true
