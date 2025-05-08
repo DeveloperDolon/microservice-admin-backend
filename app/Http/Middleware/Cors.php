@@ -15,7 +15,12 @@ class Cors
      */
     public function handle(Request $request, Closure $next): Response
     {
-        return $next($request)
-        ->header('');
+        $response = $next($request);
+        
+        $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:5712'); // Your Next.js URL
+        $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+        $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+        
+        return $response;
     }
 }
