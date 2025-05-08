@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\Cors;
 use App\Http\Middleware\GlobalErrorResponse;
 use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\IsSuperAdmin;
@@ -33,7 +34,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->appendToGroup('api', [
             // Authenticate::class,
             'throttle:api',
-            \Illuminate\Routing\Middleware\SubstituteBindings::class
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            Cors::class
         ]);
 
         $middleware->web(append: [

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('user')
 ->controller(AuthController::class)
 ->group(function () {
-    Route::get('/login', 'login')->name('login');
+    Route::post('/login', 'login')->name('login');
 
     Route::middleware(['auth:sanctum'])
     ->group(function () {

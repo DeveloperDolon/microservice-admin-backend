@@ -14,7 +14,8 @@ class ProductController extends BaseController
 {
     public function index()
     {
-        $productList = Product::all();
+        $productList = Product::paginate(request()->limit);
+
         if ($productList->isEmpty()) {
             return $this->sendErrorResponse('No products found.', 404);
         }
