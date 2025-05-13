@@ -27,11 +27,8 @@ class ProductRequest extends FormRequest
             'ingredients' => 'nullable|string',
             'shipping_cost' => $condition . '|integer',
             'benefit' => 'nullable|string',
-            'seller_id' => $condition . '|string',
             'brand_id' => $condition . '|string',
-            'variant_name.*' => $condition . '|string|max:255|min:5|unique:variants,name',
-            'variant_price.*' => $condition . '|numeric|min:0',
-            'variant_stock.*' => $condition . '|integer|min:0',
+            'variants' => $condition . '|string',
         ];
     }
 }

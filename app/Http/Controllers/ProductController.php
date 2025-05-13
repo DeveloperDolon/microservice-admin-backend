@@ -34,6 +34,7 @@ class ProductController extends BaseController
     public function create(ProductRequest $request)
     {
         $productData = $request->validated();
+        
         $product = new Product();
 
         $product->name = $productData['name'];
