@@ -54,7 +54,7 @@ class ProductController extends BaseController
         $product->ingredients = $productData['ingredients'];
         $product->shipping_cost = $productData['shipping_cost'];
         $product->benefit = $productData['benefit'];
-        $product->seller_id = $productData['seller_id'];
+        $product->seller_id = request()->user()->id;
         $product->brand_id = $productData['brand_id'];
         $product->save();
 
@@ -92,7 +92,6 @@ class ProductController extends BaseController
         $product->ingredients = $productData['ingredients'] ?? $product->ingredients;
         $product->shipping_cost = $productData['shipping_cost'] ?? $product->shipping_cost;
         $product->benefit = $productData['benefit'] ?? $product->benefit;
-        $product->seller_id = $productData['seller_id'] ?? $product->seller_id;
         $product->brand_id = $productData['brand_id'] ?? $product->brand_id;
         if ($request->hasFile('images')) {
             $uploadedImages = [];
