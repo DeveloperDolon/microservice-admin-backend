@@ -34,7 +34,7 @@ class ProductController extends BaseController
     public function create(ProductRequest $request)
     {
         $productData = $request->validated();
-        
+
         $product = new Product();
 
         $product->name = $productData['name'];
@@ -51,7 +51,6 @@ class ProductController extends BaseController
         $product->price = $productData['price'];
         $product->description = $productData['description'];
         $product->discount_type = $productData['discount_type'];
-        $product->likes = $productData['likes'];
         $product->ingredients = $productData['ingredients'];
         $product->shipping_cost = $productData['shipping_cost'];
         $product->benefit = $productData['benefit'];
@@ -59,15 +58,11 @@ class ProductController extends BaseController
         $product->brand_id = $productData['brand_id'];
         $product->save();
 
-        if (isset($productData['variant_name']) && isset($productData['variant_price']) && isset($productData['variant_stock'])) {
-            foreach ($productData['variant_name'] as $key => $variantName) {
-                if (!empty($variantName)) {
-                    $product->variants()->create([
-                        'name' => $variantName,
-                        'stock' => $productData['variant_stock'][$key],
-                        'price' => $productData['variant_price'][$key],
-                    ]);
-                }
+        $variants = json_decode($productData['variants']);
+
+        if ($variants && count($variants) > 0) {
+            foreach ($variants as $key => $variant) {
+                $product->variants()->create((array)$variant);
             }
         }
 
