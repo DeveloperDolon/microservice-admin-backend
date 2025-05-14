@@ -56,6 +56,7 @@ class ProductController extends BaseController
         $product->benefit = $productData['benefit'];
         $product->seller_id = request()->user()->id;
         $product->brand_id = $productData['brand_id'];
+        $product->likes = 0;
         $product->save();
 
         $variants = json_decode($productData['variants']);
@@ -69,6 +70,7 @@ class ProductController extends BaseController
         $product->load('variants');
         $productArray = $product->toArray();
         $productArray['variants'] = $product->variants->toArray();
+
         ProductCreateJob::dispatch($productArray)->onConnection('rabbitmq')->onQueue('main_queue');
 
         return $this->sendSuccessResponse($productArray, 'Product created successfully.');
