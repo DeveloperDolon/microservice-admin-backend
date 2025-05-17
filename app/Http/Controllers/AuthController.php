@@ -73,7 +73,9 @@ class AuthController extends BaseController
             $query->where('name', 'like', '%' . $input . '%')->orWhere('email', 'like', '%' . $input . '%');
         });
 
-        $userList = $query->get();
+        $userList = $query->with('role', function ($subquery){
+            $subquery->select(['id', 'name']);
+        })->get();
 
         return $this->sendSuccessResponse($userList, 'User list retrived successful!');
     }
